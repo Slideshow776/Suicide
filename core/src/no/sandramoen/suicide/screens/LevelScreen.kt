@@ -13,6 +13,10 @@ class LevelScreen : BaseScreen() {
     private var sumScore = 0f
     private var totalNumberOfEmotions = 0f
 
+    private var lastEmotionWasNegative = false // assumes first last emotion was positive
+    private var probabilityOfStayingPositive = .6f
+    private var probabilityOfStayingNegative = .7f
+
     override fun initialize() {
 
     }
@@ -40,12 +44,27 @@ class LevelScreen : BaseScreen() {
     }
 
     private fun randomizeEmotion() {
-        if (MathUtils.randomBoolean(.5f)) {
-            sumScore += 1
-            println("+1")
+        if (lastEmotionWasNegative) {
+            if (MathUtils.randomBoolean(probabilityOfStayingNegative)) { // input is probability of true
+                sumScore -= 1
+                println("-1")
+                lastEmotionWasNegative = true
+            } else {
+                sumScore += 1
+                println("+1")
+                lastEmotionWasNegative = false
+            }
         } else {
-            sumScore -= 1
-            println("-1")
+            if (MathUtils.randomBoolean(probabilityOfStayingPositive)) { // input is probability of true
+                sumScore += 1
+                println("+1")
+                lastEmotionWasNegative = false
+            } else {
+                sumScore -= 1
+                println("-1")
+                lastEmotionWasNegative = true
+            }
+
         }
         totalNumberOfEmotions += 1
     }
