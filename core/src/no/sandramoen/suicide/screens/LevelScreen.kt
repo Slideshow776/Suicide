@@ -1,21 +1,19 @@
 package no.sandramoen.suicide.screens
 
 import com.badlogic.gdx.Input.Keys
-import com.badlogic.gdx.math.MathUtils
 import no.sandramoen.suicide.base.BaseScreen
+import no.sandramoen.suicide.Emotions
 
 class LevelScreen : BaseScreen() {
 
     private var stopGame = false
     private var timer = 0f
-    private val frequency = 2f
+    private val frequency = 6f
 
-    private var sumScore = 0f
+    private var sumScore = 0
     private var totalNumberOfEmotions = 0f
 
-    private var lastEmotionWasNegative = false // assumes first last emotion was positive
-    private var probabilityOfStayingPositive = .6f
-    private var probabilityOfStayingNegative = .7f
+    private val emotions = Emotions()
 
     override fun initialize() {
 
@@ -38,34 +36,9 @@ class LevelScreen : BaseScreen() {
 
     private fun generateEmotion(dt: Float) {
         if (timer >= frequency) {
-            randomizeEmotion()
+            sumScore += emotions.randomizeEmotion()
+            totalNumberOfEmotions += 1
             timer = 0f
         } else timer += dt
-    }
-
-    private fun randomizeEmotion() {
-        if (lastEmotionWasNegative) {
-            if (MathUtils.randomBoolean(probabilityOfStayingNegative)) { // input is probability of true
-                sumScore -= 1
-                println("-1")
-                lastEmotionWasNegative = true
-            } else {
-                sumScore += 1
-                println("+1")
-                lastEmotionWasNegative = false
-            }
-        } else {
-            if (MathUtils.randomBoolean(probabilityOfStayingPositive)) { // input is probability of true
-                sumScore += 1
-                println("+1")
-                lastEmotionWasNegative = false
-            } else {
-                sumScore -= 1
-                println("-1")
-                lastEmotionWasNegative = true
-            }
-
-        }
-        totalNumberOfEmotions += 1
     }
 }
