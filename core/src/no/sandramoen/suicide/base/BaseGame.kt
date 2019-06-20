@@ -3,16 +3,27 @@ package no.sandramoen.suicide.base
 import com.badlogic.gdx.Game
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.InputMultiplexer
+import com.badlogic.gdx.assets.AssetErrorListener
 import com.badlogic.gdx.assets.AssetManager
 import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.graphics.g2d.NinePatch
+import com.badlogic.gdx.graphics.g2d.TextureAtlas
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator
 import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle
 import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable
+import com.badlogic.gdx.graphics.g2d.freetype.FreetypeFontLoader
+import com.badlogic.gdx.graphics.g2d.BitmapFont
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGeneratorLoader
+import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver
+import com.badlogic.gdx.assets.AssetDescriptor
 
-abstract class BaseGame : Game() {
+
+
+abstract class BaseGame : Game(), AssetErrorListener {
+    private lateinit var assetManager: AssetManager
+    private lateinit var fontGenerator: FreeTypeFontGenerator
 
     init {
         game = this
@@ -26,7 +37,7 @@ abstract class BaseGame : Game() {
         var negativeEmotions: List<String>? = null
         var labelStyle: LabelStyle? = null
         var textButtonStyle: TextButtonStyle? = null
-        var assetManager: AssetManager? = null
+        var textureAtlas: TextureAtlas? = null
 
         fun setActiveScreen(s: BaseScreen) {
             game?.setScreen(s)
@@ -34,17 +45,27 @@ abstract class BaseGame : Game() {
     }
 
     override fun create() {
+        // discrete input
         val im = InputMultiplexer()
         Gdx.input.inputProcessor = im
 
-        assetManager = AssetManager()
+        // asset manager
+        val assetManager = AssetManager()
+        assetManager.setErrorListener(this)
+
+        assetManager.load("images/packed/suicide.pack.atlas", TextureAtlas::class.java)
+        val resolver = InternalFileHandleResolver()
+        assetManager.setLoader(FreeTypeFontGenerator::class.java, FreeTypeFontGeneratorLoader(resolver))
+        assetManager.setLoader(BitmapFont::class.java, ".ttf", FreetypeFontLoader(resolver))
+        assetManager.finishLoading();
+        textureAtlas = assetManager.get("images/packed/suicide.pack.atlas") // all images are found in this global static variable
 
         needs = readFromFile("needs.txt")
         positiveEmotions = readFromFile("positives.txt")
         negativeEmotions = readFromFile("negatives.txt")
 
-        // font
-        val fontGenerator = FreeTypeFontGenerator(Gdx.files.internal("fonts/OpenSans.ttf"))
+        // fonts
+        fontGenerator = FreeTypeFontGenerator(Gdx.files.internal("fonts/OpenSans.ttf"))
         val fontParameters = FreeTypeFontGenerator.FreeTypeFontParameter()
         fontParameters.size = 24
         fontParameters.color = Color.WHITE
@@ -59,11 +80,22 @@ abstract class BaseGame : Game() {
         labelStyle = LabelStyle()
         labelStyle!!.font = customFont
 
+        // buttons
         textButtonStyle = TextButtonStyle()
-        val buttonTex = Texture(Gdx.files.internal("images/button.png"))
+        val buttonTex = textureAtlas!!.findRegion("button")
         val buttonPatch = NinePatch(buttonTex, 24, 24, 24, 24)
         textButtonStyle!!.up = NinePatchDrawable(buttonPatch)
         textButtonStyle!!.font = customFont
+    }
+
+    override fun error(asset: AssetDescriptor<*>, throwable: Throwable) {
+        Gdx.app.error("BaseGame.kt", "Could not load asset: " + asset.fileName, throwable)
+    }
+
+    @Override
+    override fun dispose()    {
+        assetManager.dispose()
+        fontGenerator.dispose()
     }
 
     private fun readFromFile(fileName: String): List<String> {

@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.Batch
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.graphics.Texture.TextureFilter
+import com.badlogic.gdx.graphics.g2d.TextureAtlas
 import com.badlogic.gdx.utils.Array
 import com.badlogic.gdx.math.Rectangle
 import com.badlogic.gdx.scenes.scene2d.Group
@@ -117,6 +118,11 @@ open class BaseActor(x: Float, y: Float, s: Table) : Group() {
             setAnimation(anim)
 
         return anim
+    }
+
+    fun test(region: TextureAtlas.AtlasRegion): Animation<TextureRegion> {
+        setAnimation(Animation(1f, region))
+        return Animation(1f, region)
     }
 
     fun loadTexture(fileName: String): Animation<TextureRegion> {
