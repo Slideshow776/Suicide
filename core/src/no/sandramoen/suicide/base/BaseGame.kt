@@ -5,8 +5,11 @@ import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.InputMultiplexer
 import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.Texture
+import com.badlogic.gdx.graphics.g2d.NinePatch
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator
 import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle
+import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable
 
 abstract class BaseGame : Game() {
 
@@ -21,6 +24,7 @@ abstract class BaseGame : Game() {
         var positiveEmotions: List<String>? = null
         var negativeEmotions: List<String>? = null
         var labelStyle: LabelStyle? = null
+        var textButtonStyle: TextButtonStyle? = null
 
         fun setActiveScreen(s: BaseScreen) {
             game?.setScreen(s)
@@ -50,6 +54,12 @@ abstract class BaseGame : Game() {
 
         labelStyle = LabelStyle()
         labelStyle!!.font = customFont
+
+        textButtonStyle = TextButtonStyle()
+        val buttonTex = Texture(Gdx.files.internal("graphics/button.png"))
+        val buttonPatch = NinePatch(buttonTex, 24, 24, 24, 24)
+        textButtonStyle!!.up = NinePatchDrawable(buttonPatch)
+        textButtonStyle!!.font = customFont
     }
 
     private fun readFromFile(fileName: String): List<String> {

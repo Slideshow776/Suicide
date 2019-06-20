@@ -1,4 +1,4 @@
-package no.sandramoen.suicide
+package no.sandramoen.suicide.screens
 
 import com.badlogic.gdx.math.MathUtils
 import com.badlogic.gdx.scenes.scene2d.actions.Actions

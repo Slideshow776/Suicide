@@ -1,12 +1,10 @@
 package no.sandramoen.suicide.screens
 
 import com.badlogic.gdx.Input.Keys
-import com.badlogic.gdx.scenes.scene2d.ui.Label
-import com.badlogic.gdx.scenes.scene2d.ui.Stack
-import com.badlogic.gdx.scenes.scene2d.ui.Table
-import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup
+import com.badlogic.gdx.scenes.scene2d.Event
+import com.badlogic.gdx.scenes.scene2d.actions.Actions
+import com.badlogic.gdx.scenes.scene2d.ui.*
 import no.sandramoen.suicide.base.BaseScreen
-import no.sandramoen.suicide.Emotions
 import no.sandramoen.suicide.base.BaseGame
 
 class LevelScreen : BaseScreen() {
@@ -17,38 +15,56 @@ class LevelScreen : BaseScreen() {
 
     private var sumScore = 0
     private var totalNumberOfEmotions = 0f
+    private lateinit var scoreLabel: Label
 
     private lateinit var emotions: Emotions
+
+    private lateinit var suicideButton: TextButton
 
     override fun initialize() {
 
         // scene graph layout
         val labelVerticalGroup = VerticalGroup()
-        labelVerticalGroup.debug = true
+        /*labelVerticalGroup.debug = true*/
         labelVerticalGroup.top()
         emotions = Emotions(labelVerticalGroup)
 
         val animationTable = Table()
-        animationTable.debug = true
+        /*animationTable.debug = true*/
         animationTable.setFillParent(true)
-        val animationLabel = Label("Area reserved for animation", BaseGame.labelStyle)
-        animationTable.add(animationLabel)
+
+        val scoreTable = Table()
+        scoreTable.setFillParent(true)
+
+        /*uiTable.debug = true*/
+        uiTable.bottom()
 
         val stack = Stack()
         stack.add(animationTable)
         stack.add(labelVerticalGroup)
+        stack.add(scoreTable)
         stack.setFillParent(true)
         mainStage.addActor(stack)
 
-        val buttonLabel = Label("Area reserved for button", BaseGame.labelStyle)
-        uiTable.debug = true
-        uiTable.bottom()
-        uiTable.add(buttonLabel).width(500f).height(150f)
+        // button
+        suicideButton = TextButton("Suicide?", BaseGame.textButtonStyle)
+        suicideButton.addListener {e: Event ->
+            if(isTouchDownEvent(e)) {
+                stopGame = true
+            }
+            false
+        }
+        uiTable.add(suicideButton)
+
+        // score label
+        scoreLabel = Label("", BaseGame.labelStyle)
+        scoreTable.add(scoreLabel)
     }
 
     override fun update(dt: Float) {
         if (stopGame) {
-            println("Score: ${sumScore/totalNumberOfEmotions}")
+            scoreLabel.setText("Score: ${sumScore/totalNumberOfEmotions}")
+            suicideButton.addAction(Actions.fadeOut(.2f))
         } else {
             generateEmotion(dt)
         }
