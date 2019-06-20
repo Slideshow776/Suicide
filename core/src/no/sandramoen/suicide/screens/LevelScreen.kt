@@ -1,9 +1,12 @@
 package no.sandramoen.suicide.screens
 
+import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.Input.Keys
 import com.badlogic.gdx.scenes.scene2d.Event
 import com.badlogic.gdx.scenes.scene2d.actions.Actions
 import com.badlogic.gdx.scenes.scene2d.ui.*
+import no.sandramoen.suicide.actors.Background
+import no.sandramoen.suicide.base.BaseActor
 import no.sandramoen.suicide.base.BaseScreen
 import no.sandramoen.suicide.base.BaseGame
 
@@ -59,6 +62,11 @@ class LevelScreen : BaseScreen() {
         // score label
         scoreLabel = Label("", BaseGame.labelStyle)
         scoreTable.add(scoreLabel)
+
+        // actors
+        val background = Background(0f, 0f, animationTable)
+        background.setSize(Gdx.graphics.width.toFloat(), Gdx.graphics.height.toFloat())
+        BaseActor.setWorldBounds(background)
     }
 
     override fun update(dt: Float) {
