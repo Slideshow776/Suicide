@@ -9,9 +9,9 @@ import com.badlogic.gdx.Screen
 import com.badlogic.gdx.InputProcessor
 
 abstract class BaseScreen : Screen, InputProcessor {
-    private var mainStage = Stage()
-    private var uiStage = Stage()
-    private var uiTable = Table()
+    protected var mainStage = Stage()
+    protected var uiStage = Stage()
+    protected var uiTable = Table()
 
     init {
         uiTable.setFillParent(true)

@@ -10,12 +10,11 @@ public class DesktopLauncher {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
 
 		config.title = "Suicide?";
-		int scale = 4; // resolution of lg g4 is 1440 x 2560 (in portrait mode)
-		config.width = (int)1440 / scale;
-		config.height = (int)2560 / scale;
+		int scale = 2; // resolution of lg g4 is 1440 x 2560 (in portrait mode)
+		config.height = (int)1440 / scale;
+		config.width = (int)2560 / scale;
 		config.resizable = false;
 
 		new LwjglApplication(new SuicideGame(), config);
-		/*new LwjglApplication(new Launcher(), config);*/
 	}
 }
