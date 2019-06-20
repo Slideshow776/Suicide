@@ -3,6 +3,7 @@ package no.sandramoen.suicide.base
 import com.badlogic.gdx.Game
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.InputMultiplexer
+import com.badlogic.gdx.assets.AssetManager
 import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.graphics.g2d.NinePatch
@@ -25,6 +26,7 @@ abstract class BaseGame : Game() {
         var negativeEmotions: List<String>? = null
         var labelStyle: LabelStyle? = null
         var textButtonStyle: TextButtonStyle? = null
+        var assetManager: AssetManager? = null
 
         fun setActiveScreen(s: BaseScreen) {
             game?.setScreen(s)
@@ -34,6 +36,8 @@ abstract class BaseGame : Game() {
     override fun create() {
         val im = InputMultiplexer()
         Gdx.input.inputProcessor = im
+
+        assetManager = AssetManager()
 
         needs = readFromFile("needs.txt")
         positiveEmotions = readFromFile("positives.txt")
@@ -56,7 +60,7 @@ abstract class BaseGame : Game() {
         labelStyle!!.font = customFont
 
         textButtonStyle = TextButtonStyle()
-        val buttonTex = Texture(Gdx.files.internal("graphics/button.png"))
+        val buttonTex = Texture(Gdx.files.internal("images/button.png"))
         val buttonPatch = NinePatch(buttonTex, 24, 24, 24, 24)
         textButtonStyle!!.up = NinePatchDrawable(buttonPatch)
         textButtonStyle!!.font = customFont

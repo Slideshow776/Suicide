@@ -1,0 +1,20 @@
+
+suicide.pack.png
+size: 1024,512
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+button
+  rotate: false
+  xy: 532, 427
+  size: 78, 78
+  orig: 78, 78
+  offset: 0, 0
+  index: -1
+testBackground
+  rotate: false
+  xy: 2, 2
+  size: 528, 503
+  orig: 528, 503
+  offset: 0, 0
+  index: -1
