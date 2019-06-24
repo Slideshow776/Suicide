@@ -50,7 +50,7 @@ abstract class BaseGame : Game(), AssetErrorListener {
         Gdx.input.inputProcessor = im
 
         // asset manager
-        val assetManager = AssetManager()
+        assetManager = AssetManager()
         assetManager.setErrorListener(this)
 
         assetManager.load("images/packed/suicide.pack.atlas", TextureAtlas::class.java)

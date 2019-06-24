@@ -69,17 +69,9 @@ open class BaseActor(x: Float, y: Float, s: Table) : Group() {
         animationPaused = pause
     }
 
-    fun loadAnimationFromFiles(fileNames: Array<String>, frameDuration: Float, loop: Boolean,
-                               textureFilter: TextureFilter = TextureFilter.Linear): Animation<TextureRegion> {
-        val textureArray: Array<TextureRegion> = Array()
+    fun loadAnimationFromTextureRegions(textureRegionList: Array<TextureRegion>, frameDuration: Float, loop: Boolean): Animation<TextureRegion> {
 
-        for (i in 0 until fileNames.size) {
-            val texture = Texture(Gdx.files.internal(fileNames[i]))
-            texture.setFilter(textureFilter, textureFilter)
-            textureArray.add(TextureRegion(texture))
-        }
-
-        val anim: Animation<TextureRegion> = Animation(frameDuration, textureArray)
+        val anim: Animation<TextureRegion> = Animation(frameDuration, textureRegionList)
 
         if (loop)
             anim.playMode = Animation.PlayMode.LOOP
@@ -92,43 +84,10 @@ open class BaseActor(x: Float, y: Float, s: Table) : Group() {
         return anim
     }
 
-    fun loadAnimationFromSheet(fileName: String, rows: Int, cols: Int, frameDuration: Float, loop: Boolean, textureFilter: TextureFilter = TextureFilter.Linear): Animation<TextureRegion> {
-        val texture = Texture(Gdx.files.internal(fileName), true)
-        texture.setFilter(textureFilter, textureFilter)
-        val frameWidth: Int = texture.width / cols
-        val frameHeight: Int = texture.height / rows
-
-        val temp = TextureRegion.split(texture, frameWidth, frameHeight)
-        val textureArray: Array<TextureRegion> = Array()
-
-        for (r in 0 until rows) {
-            for (c in 0 until cols) {
-                textureArray.add(temp[r][c])
-            }
-        }
-
-        val anim: Animation<TextureRegion> = Animation(frameDuration, textureArray)
-
-        if (loop)
-            anim.playMode = Animation.PlayMode.LOOP
-        else
-            anim.playMode = Animation.PlayMode.NORMAL
-
-        if (animation == null)
-            setAnimation(anim)
-
-        return anim
-    }
-
-    fun test(region: TextureAtlas.AtlasRegion): Animation<TextureRegion> {
-        setAnimation(Animation(1f, region))
-        return Animation(1f, region)
-    }
-
-    fun loadTexture(fileName: String): Animation<TextureRegion> {
-        val fileNames: Array<String> = Array(1)
-        fileNames.add(fileName)
-        return loadAnimationFromFiles(fileNames, 1f, true)
+    fun loadTexture(region: TextureAtlas.AtlasRegion): Animation<TextureRegion> {
+        val textureList: Array<TextureRegion> = Array(1)
+        textureList.add(region as TextureRegion)
+        return loadAnimationFromTextureRegions(textureList, 1f, true)
     }
 
     fun isAnimationFinished(): Boolean {

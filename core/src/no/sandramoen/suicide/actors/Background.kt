@@ -6,5 +6,5 @@ import no.sandramoen.suicide.base.BaseGame
 
 class Background(x: Float, y: Float, s: Table) : BaseActor(x, y, s) {
     /*var background = loadTexture("images/testBackground.png")*/
-    var background = test(BaseGame.textureAtlas!!.findRegion("testBackground"))
+    var background = loadTexture(BaseGame.textureAtlas!!.findRegion("testBackground"))
 }
