@@ -1,5 +1,6 @@
 package no.sandramoen.suicide.screens
 
+import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.math.MathUtils
 import com.badlogic.gdx.scenes.scene2d.actions.Actions
 import com.badlogic.gdx.scenes.scene2d.ui.Label
@@ -17,21 +18,21 @@ class Emotions(private val verticalGroup: VerticalGroup) {
     fun randomizeEmotion(): Int {
         if (lastEmotionWasNegative) {
             return if (MathUtils.randomBoolean(probabilityOfStayingNegative)) { // input is probability of true
-                labelEmotion(getEmotion(false))
+                labelEmotion(getEmotion(false), false)
                 lastEmotionWasNegative = true
                 -1
             } else {
-                labelEmotion(getEmotion(true))
+                labelEmotion(getEmotion(true), true)
                 lastEmotionWasNegative = false
                 +1
             }
         } else {
             return if (MathUtils.randomBoolean(probabilityOfStayingPositive)) { // input is probability of true
-                labelEmotion(getEmotion(true))
+                labelEmotion(getEmotion(true), true)
                 lastEmotionWasNegative = false
                 +1
             } else {
-                labelEmotion(getEmotion(false))
+                labelEmotion(getEmotion(false), false)
                 lastEmotionWasNegative = true
                 -1
             }
@@ -39,11 +40,13 @@ class Emotions(private val verticalGroup: VerticalGroup) {
         }
     }
 
-    private fun labelEmotion(emotion: String) {
+    private fun labelEmotion(emotion: String, positive: Boolean) {
         val label = Label(emotion, BaseGame.labelStyle)
         label.addAction(Actions.fadeOut(6f))
         verticalGroup.addActorAt(0, label)
         label.addAction(Actions.after(Actions.run { verticalGroup.removeActor(label) }))
+        if (positive) label.color = Color.GREEN
+        else label.color = Color.RED
     }
 
     private fun getEmotion(positive: Boolean): String {

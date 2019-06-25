@@ -1,6 +1,5 @@
 package no.sandramoen.suicide.screens
 
-import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.Input.Keys
 import com.badlogic.gdx.scenes.scene2d.Event
 import com.badlogic.gdx.scenes.scene2d.actions.Actions
@@ -14,7 +13,7 @@ class LevelScreen : BaseScreen() {
 
     private var stopGame = false
     private var timer = 0f
-    private val frequency = 1f  // 6f
+    private val frequency = 5f  // 6f
 
     private var sumScore = 0
     private var totalNumberOfEmotions = 0f
@@ -23,6 +22,8 @@ class LevelScreen : BaseScreen() {
     private lateinit var emotions: Emotions
 
     private lateinit var suicideButton: TextButton
+
+    private lateinit var background: Background
 
     override fun initialize() {
 
@@ -64,9 +65,10 @@ class LevelScreen : BaseScreen() {
         scoreTable.add(scoreLabel)
 
         // actors
-        val background = Background(0f, 0f, animationTable)
-        background.setSize(Gdx.graphics.width.toFloat(), Gdx.graphics.height.toFloat())
+        background = Background(0f, 0f, animationTable)
+        /*background.setSize(Gdx.graphics.width.toFloat(), Gdx.graphics.height.toFloat())*/
         BaseActor.setWorldBounds(background)
+        background.showNext()
     }
 
     override fun update(dt: Float) {
@@ -74,7 +76,7 @@ class LevelScreen : BaseScreen() {
             scoreLabel.setText("Score: ${sumScore/totalNumberOfEmotions}")
             suicideButton.addAction(Actions.fadeOut(.2f))
         } else {
-            generateEmotion(dt)
+            nextScene(dt)
         }
     }
 
@@ -85,10 +87,14 @@ class LevelScreen : BaseScreen() {
         return false
     }
 
-    private fun generateEmotion(dt: Float) {
+    private fun nextScene(dt: Float) {
         if (timer >= frequency) {
             sumScore += emotions.randomizeEmotion()
             totalNumberOfEmotions += 1
+
+            background.showNext()
+            /*background.setSize(Gdx.graphics.width.toFloat(), Gdx.graphics.height.toFloat())*/
+
             timer = 0f
         } else timer += dt
     }

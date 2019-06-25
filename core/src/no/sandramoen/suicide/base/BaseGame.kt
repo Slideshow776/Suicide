@@ -59,6 +59,7 @@ abstract class BaseGame : Game(), AssetErrorListener {
         assetManager.setLoader(BitmapFont::class.java, ".ttf", FreetypeFontLoader(resolver))
         assetManager.finishLoading();
         textureAtlas = assetManager.get("images/packed/suicide.pack.atlas") // all images are found in this global static variable
+        textureAtlas!!.findRegion("button").texture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear)
 
         needs = readFromFile("needs.txt")
         positiveEmotions = readFromFile("positives.txt")

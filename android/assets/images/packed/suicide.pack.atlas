@@ -1,17 +1,44 @@
 
 suicide.pack.png
-size: 1024,512
+size: 1024,1024
 format: RGBA8888
 filter: Nearest,Nearest
 repeat: none
 button
   rotate: false
-  xy: 532, 427
+  xy: 532, 932
   size: 78, 78
   orig: 78, 78
   offset: 0, 0
   index: -1
-testBackground
+testBackground0
+  rotate: false
+  xy: 2, 507
+  size: 528, 503
+  orig: 528, 503
+  offset: 0, 0
+  index: -1
+testBackground1
+  rotate: false
+  xy: 2, 2
+  size: 528, 503
+  orig: 528, 503
+  offset: 0, 0
+  index: -1
+
+suicide.pack2.png
+size: 1024,1024
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+testBackground2
+  rotate: false
+  xy: 2, 507
+  size: 528, 503
+  orig: 528, 503
+  offset: 0, 0
+  index: -1
+testBackground3
   rotate: false
   xy: 2, 2
   size: 528, 503
