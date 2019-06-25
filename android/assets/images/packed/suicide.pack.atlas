@@ -45,3 +45,16 @@ testBackground3
   orig: 528, 503
   offset: 0, 0
   index: -1
+
+suicide.pack3.png
+size: 1024,512
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+testBackground4
+  rotate: false
+  xy: 2, 2
+  size: 528, 503
+  orig: 528, 503
+  offset: 0, 0
+  index: -1

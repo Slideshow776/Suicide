@@ -65,10 +65,14 @@ class LevelScreen : BaseScreen() {
         scoreTable.add(scoreLabel)
 
         // actors
-        background = Background(0f, 0f, animationTable)
-        /*background.setSize(Gdx.graphics.width.toFloat(), Gdx.graphics.height.toFloat())*/
+        background = Background(0f, 0f, t=animationTable)
         BaseActor.setWorldBounds(background)
         background.showNext()
+
+        // fade in
+        val duration = 1f
+        background.addAction(Actions.sequence(Actions.fadeOut(0f), Actions.fadeIn(duration)))
+        scoreLabel.addAction(Actions.sequence(Actions.fadeOut(0f), Actions.fadeIn(duration)))
     }
 
     override fun update(dt: Float) {

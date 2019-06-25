@@ -4,16 +4,14 @@ import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.g2d.Animation
 import com.badlogic.gdx.graphics.g2d.TextureRegion
 import com.badlogic.gdx.graphics.g2d.Batch
-import com.badlogic.gdx.Gdx
-import com.badlogic.gdx.graphics.Texture
-import com.badlogic.gdx.graphics.Texture.TextureFilter
 import com.badlogic.gdx.graphics.g2d.TextureAtlas
 import com.badlogic.gdx.utils.Array
 import com.badlogic.gdx.math.Rectangle
 import com.badlogic.gdx.scenes.scene2d.Group
+import com.badlogic.gdx.scenes.scene2d.Stage
 import com.badlogic.gdx.scenes.scene2d.ui.Table
 
-open class BaseActor(x: Float, y: Float, s: Table) : Group() {
+open class BaseActor(x: Float, y: Float, s: Stage?, t: Table?) : Group() {
 
     private var animation: Animation<TextureRegion>?
     private var elapsedTime: Float = 0F
@@ -22,7 +20,8 @@ open class BaseActor(x: Float, y: Float, s: Table) : Group() {
     init {
         this.x = x
         this.y = y
-        s.addActor(this)
+        s?.addActor(this)
+        t?.addActor(this)
         animation = null
     }
 

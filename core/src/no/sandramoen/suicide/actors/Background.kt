@@ -1,11 +1,14 @@
 package no.sandramoen.suicide.actors
 
 import com.badlogic.gdx.Gdx
+import com.badlogic.gdx.scenes.scene2d.Stage
 import com.badlogic.gdx.scenes.scene2d.ui.Table
 import no.sandramoen.suicide.base.BaseActor
 import no.sandramoen.suicide.base.BaseGame
 
-class Background(x: Float, y: Float, s: Table) : BaseActor(x, y, s) {
+class Background(x: Float, y: Float, s: Stage? = null, t: Table? = null) : BaseActor(x, y, s, t) {
+    val background4 = loadTexture(BaseGame.textureAtlas!!.findRegion("testBackground4"))
+
     private val background0 = loadTexture(BaseGame.textureAtlas!!.findRegion("testBackground0"))
     private val background1 = loadTexture(BaseGame.textureAtlas!!.findRegion("testBackground1"))
     private val background2 = loadTexture(BaseGame.textureAtlas!!.findRegion("testBackground2"))
