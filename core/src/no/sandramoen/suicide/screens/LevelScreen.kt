@@ -1,5 +1,6 @@
 package no.sandramoen.suicide.screens
 
+import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.Input.Keys
 import com.badlogic.gdx.scenes.scene2d.Event
 import com.badlogic.gdx.scenes.scene2d.actions.Actions
@@ -78,6 +79,10 @@ class LevelScreen : BaseScreen() {
     override fun update(dt: Float) {
         if (stopGame) {
             scoreLabel.setText("Score: ${sumScore/totalNumberOfEmotions}")
+
+            background.setAnimation(background.scoreBackground)
+            background.setSize(Gdx.graphics.width.toFloat(), Gdx.graphics.height.toFloat())
+
             suicideButton.addAction(Actions.fadeOut(.2f))
         } else {
             nextScene(dt)
