@@ -7,18 +7,16 @@ import com.badlogic.gdx.assets.AssetErrorListener
 import com.badlogic.gdx.assets.AssetManager
 import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.Texture
-import com.badlogic.gdx.graphics.g2d.NinePatch
-import com.badlogic.gdx.graphics.g2d.TextureAtlas
+import com.badlogic.gdx.graphics.Texture.TextureFilter
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator
 import com.badlogic.gdx.scenes.scene2d.ui.Label.LabelStyle
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle
 import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable
 import com.badlogic.gdx.graphics.g2d.freetype.FreetypeFontLoader
-import com.badlogic.gdx.graphics.g2d.BitmapFont
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGeneratorLoader
 import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver
 import com.badlogic.gdx.assets.AssetDescriptor
-
+import com.badlogic.gdx.graphics.g2d.*
 
 
 abstract class BaseGame : Game(), AssetErrorListener {
@@ -38,6 +36,8 @@ abstract class BaseGame : Game(), AssetErrorListener {
         var labelStyle: LabelStyle? = null
         var textButtonStyle: TextButtonStyle? = null
         var textureAtlas: TextureAtlas? = null
+        var splashTexture: Texture? = null
+        var splashAnim: Animation<TextureRegion>? = null
 
         fun setActiveScreen(s: BaseScreen) {
             game?.setScreen(s)
@@ -53,17 +53,22 @@ abstract class BaseGame : Game(), AssetErrorListener {
         assetManager = AssetManager()
         assetManager.setErrorListener(this)
 
-        assetManager.load("images/packed/suicide.pack.atlas", TextureAtlas::class.java)
+        assetManager.load("images/included/packed/suicide.pack.atlas", TextureAtlas::class.java)
         val resolver = InternalFileHandleResolver()
         assetManager.setLoader(FreeTypeFontGenerator::class.java, FreeTypeFontGeneratorLoader(resolver))
         assetManager.setLoader(BitmapFont::class.java, ".ttf", FreetypeFontLoader(resolver))
         assetManager.finishLoading();
-        textureAtlas = assetManager.get("images/packed/suicide.pack.atlas") // all images are found in this global static variable
-        textureAtlas!!.findRegion("button").texture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear)
+        textureAtlas = assetManager.get("images/included/packed/suicide.pack.atlas") // all images are found in this global static variable
+        // textureAtlas!!.findRegion("button").texture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear)
 
         needs = readFromFile("needs.txt")
         positiveEmotions = readFromFile("positives.txt")
         negativeEmotions = readFromFile("negatives.txt")
+
+        // images
+        splashTexture = Texture(Gdx.files.internal("images/excluded/splash_image.jpg"))
+        splashTexture!!.setFilter(TextureFilter.Nearest, TextureFilter.Nearest)
+        splashAnim = Animation(1f, TextureRegion(splashTexture))
 
         // fonts
         fontGenerator = FreeTypeFontGenerator(Gdx.files.internal("fonts/OpenSans.ttf"))
@@ -94,9 +99,12 @@ abstract class BaseGame : Game(), AssetErrorListener {
     }
 
     @Override
-    override fun dispose()    {
+    override fun dispose() {
+        super.dispose()
         assetManager.dispose()
         fontGenerator.dispose()
+        splashTexture!!.dispose()
+        textureAtlas!!.dispose()
     }
 
     private fun readFromFile(fileName: String): List<String> {

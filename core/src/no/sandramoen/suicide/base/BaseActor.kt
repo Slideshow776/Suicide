@@ -1,8 +1,11 @@
 package no.sandramoen.suicide.base
 
+import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.graphics.Color
+import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.graphics.g2d.Animation
 import com.badlogic.gdx.graphics.g2d.TextureRegion
+import com.badlogic.gdx.graphics.Texture.TextureFilter
 import com.badlogic.gdx.graphics.g2d.Batch
 import com.badlogic.gdx.graphics.g2d.TextureAtlas
 import com.badlogic.gdx.utils.Array
@@ -11,7 +14,7 @@ import com.badlogic.gdx.scenes.scene2d.Group
 import com.badlogic.gdx.scenes.scene2d.Stage
 import com.badlogic.gdx.scenes.scene2d.ui.Table
 
-open class BaseActor(x: Float, y: Float, s: Stage?, t: Table?) : Group() {
+open class BaseActor(x: Float, y: Float, s: Stage? = null, t: Table? = null)  : Group() {
 
     private var animation: Animation<TextureRegion>?
     private var elapsedTime: Float = 0F
@@ -87,6 +90,16 @@ open class BaseActor(x: Float, y: Float, s: Stage?, t: Table?) : Group() {
         val textureList: Array<TextureRegion> = Array(1)
         textureList.add(region as TextureRegion)
         return loadAnimationFromTextureRegions(textureList, 1f, true)
+    }
+
+    fun loadTextureFromFile(fileName: String, textureFilter: TextureFilter = TextureFilter.Linear): Animation<TextureRegion> {
+        val texture = Texture(Gdx.files.internal(fileName))
+        texture.setFilter(textureFilter, textureFilter)
+
+        val anim: Animation<TextureRegion> = Animation(1f, TextureRegion(texture))
+        setAnimation(anim)
+
+        return anim
     }
 
     fun isAnimationFinished(): Boolean {

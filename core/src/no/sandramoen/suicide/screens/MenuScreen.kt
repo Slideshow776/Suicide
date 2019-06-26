@@ -22,7 +22,7 @@ class MenuScreen : BaseScreen() {
 
         // assets
         background = Background(0f, 0f, s=mainStage)
-        background.background4
+        background.menuBackground
 
         title = Label("Suicide?", BaseGame.labelStyle)
 
