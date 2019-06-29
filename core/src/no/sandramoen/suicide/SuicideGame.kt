@@ -8,6 +8,6 @@ import no.sandramoen.suicide.screens.SplashScreen
 class SuicideGame : BaseGame(){
     override fun create() {
         super.create()
-        setActiveScreen(SplashScreen())
+        setActiveScreen(MenuScreen())
     }
 }

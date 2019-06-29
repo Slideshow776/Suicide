@@ -18,7 +18,6 @@ import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver
 import com.badlogic.gdx.assets.AssetDescriptor
 import com.badlogic.gdx.graphics.g2d.*
 
-
 abstract class BaseGame : Game(), AssetErrorListener {
     private lateinit var assetManager: AssetManager
     private lateinit var fontGenerator: FreeTypeFontGenerator
@@ -49,7 +48,7 @@ abstract class BaseGame : Game(), AssetErrorListener {
         val im = InputMultiplexer()
         Gdx.input.inputProcessor = im
 
-        // asset manager
+        // asset manager (included images)
         assetManager = AssetManager()
         assetManager.setErrorListener(this)
 
@@ -65,7 +64,7 @@ abstract class BaseGame : Game(), AssetErrorListener {
         positiveEmotions = readFromFile("positives.txt")
         negativeEmotions = readFromFile("negatives.txt")
 
-        // images
+        // images (excluded)
         splashTexture = Texture(Gdx.files.internal("images/excluded/splash_image.jpg"))
         splashTexture!!.setFilter(TextureFilter.Nearest, TextureFilter.Nearest)
         splashAnim = Animation(1f, TextureRegion(splashTexture))
@@ -73,16 +72,18 @@ abstract class BaseGame : Game(), AssetErrorListener {
         // fonts
         fontGenerator = FreeTypeFontGenerator(Gdx.files.internal("fonts/OpenSans.ttf"))
         val fontParameters = FreeTypeFontGenerator.FreeTypeFontParameter()
-        fontParameters.size = 24
+        fontParameters.size = (.06f * Gdx.graphics.height).toInt() // If the resolutions height is 1440 then the font size becomes 86
         fontParameters.color = Color.WHITE
         fontParameters.borderWidth = 2f
         fontParameters.borderColor = Color.BLACK
         fontParameters.borderStraight = true
-        fontParameters.minFilter = Texture.TextureFilter.Linear
-        fontParameters.magFilter = Texture.TextureFilter.Linear
+        fontParameters.minFilter = TextureFilter.Linear
+        fontParameters.magFilter = TextureFilter.Linear
 
         val customFont = fontGenerator.generateFont(fontParameters)
+        fontGenerator.dispose()
 
+        // labels
         labelStyle = LabelStyle()
         labelStyle!!.font = customFont
 
@@ -102,7 +103,6 @@ abstract class BaseGame : Game(), AssetErrorListener {
     override fun dispose() {
         super.dispose()
         assetManager.dispose()
-        fontGenerator.dispose()
         splashTexture!!.dispose()
         textureAtlas!!.dispose()
     }
