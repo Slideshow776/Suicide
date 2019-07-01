@@ -101,7 +101,6 @@ abstract class BaseGame : Game(), AssetErrorListener {
 
     @Override
     override fun dispose() {
-        println("basegame dispose()")
         super.dispose()
         assetManager.dispose()
         customFont.dispose()

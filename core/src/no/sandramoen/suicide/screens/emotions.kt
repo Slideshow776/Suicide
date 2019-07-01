@@ -42,7 +42,13 @@ class Emotions(private val verticalGroup: VerticalGroup) {
 
     private fun labelEmotion(emotion: String, positive: Boolean) {
         val label = Label(emotion, BaseGame.labelStyle)
-        label.addAction(Actions.fadeOut(6f))
+        label.isVisible = false
+        label.addAction(Actions.sequence(
+                Actions.fadeOut(0f),
+                Actions.visible(true),
+                Actions.fadeIn(.125f),
+                Actions.fadeOut(6f)
+        ))
         verticalGroup.addActorAt(0, label)
         label.addAction(Actions.after(Actions.run { verticalGroup.removeActor(label) }))
         if (positive) label.color = Color.GREEN

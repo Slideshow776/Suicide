@@ -101,7 +101,7 @@ class LevelScreen : BaseScreen() {
         // actors
         background = Background(0f, 0f, t=animationTable)
         BaseActor.setWorldBounds(background)
-        background.showNext()
+        nextScene(0f)
 
         // fade in
         val duration = 1f
