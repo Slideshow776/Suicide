@@ -21,6 +21,7 @@ import com.badlogic.gdx.graphics.g2d.*
 abstract class BaseGame : Game(), AssetErrorListener {
     private lateinit var assetManager: AssetManager
     private lateinit var fontGenerator: FreeTypeFontGenerator
+    private lateinit var customFont: BitmapFont
 
     init {
         game = this
@@ -58,13 +59,12 @@ abstract class BaseGame : Game(), AssetErrorListener {
         assetManager.setLoader(BitmapFont::class.java, ".ttf", FreetypeFontLoader(resolver))
         assetManager.finishLoading();
         textureAtlas = assetManager.get("images/included/packed/suicide.pack.atlas") // all images are found in this global static variable
-        // textureAtlas!!.findRegion("button").texture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear)
 
         needs = readFromFile("needs.txt")
         positiveEmotions = readFromFile("positives.txt")
         negativeEmotions = readFromFile("negatives.txt")
 
-        // images (excluded)
+        // images (excluded images)
         splashTexture = Texture(Gdx.files.internal("images/excluded/splash_image.jpg"))
         splashTexture!!.setFilter(TextureFilter.Nearest, TextureFilter.Nearest)
         splashAnim = Animation(1f, TextureRegion(splashTexture))
@@ -80,7 +80,7 @@ abstract class BaseGame : Game(), AssetErrorListener {
         fontParameters.minFilter = TextureFilter.Linear
         fontParameters.magFilter = TextureFilter.Linear
 
-        val customFont = fontGenerator.generateFont(fontParameters)
+        customFont = fontGenerator.generateFont(fontParameters)
         fontGenerator.dispose()
 
         // labels
@@ -101,8 +101,10 @@ abstract class BaseGame : Game(), AssetErrorListener {
 
     @Override
     override fun dispose() {
+        println("basegame dispose()")
         super.dispose()
         assetManager.dispose()
+        customFont.dispose()
         splashTexture!!.dispose()
         textureAtlas!!.dispose()
     }

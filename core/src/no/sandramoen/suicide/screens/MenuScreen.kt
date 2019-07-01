@@ -66,15 +66,9 @@ class MenuScreen : BaseScreen() {
         return false
     }
 
-    override fun dispose() {
-        super.dispose()
-        BaseGame.textureAtlas!!.dispose()
-    }
-
     private fun levelScreen() {
         disableAndFadeOut(1f)
         background.addAction(Actions.after(Actions.run {
-            /*dispose()*/
             BaseGame.setActiveScreen(LevelScreen())
         }))
     }
@@ -82,7 +76,6 @@ class MenuScreen : BaseScreen() {
     private fun exit() {
         disableAndFadeOut(.5f)
         background.addAction(Actions.after(Actions.run {
-            dispose()
             Gdx.app.exit()
         }))
     }
