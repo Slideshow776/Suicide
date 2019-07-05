@@ -16,10 +16,10 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreetypeFontLoader
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGeneratorLoader
 import com.badlogic.gdx.assets.loaders.resolvers.InternalFileHandleResolver
 import com.badlogic.gdx.assets.AssetDescriptor
+import com.badlogic.gdx.audio.Music
 import com.badlogic.gdx.graphics.g2d.*
 
 abstract class BaseGame : Game(), AssetErrorListener {
-    private lateinit var assetManager: AssetManager
     private lateinit var fontGenerator: FreeTypeFontGenerator
     private lateinit var customFont: BitmapFont
 
@@ -38,6 +38,7 @@ abstract class BaseGame : Game(), AssetErrorListener {
         var textureAtlas: TextureAtlas? = null
         var splashTexture: Texture? = null
         var splashAnim: Animation<TextureRegion>? = null
+        var assetManager: AssetManager? = null
 
         fun setActiveScreen(s: BaseScreen) {
             game?.setScreen(s)
@@ -49,22 +50,27 @@ abstract class BaseGame : Game(), AssetErrorListener {
         val im = InputMultiplexer()
         Gdx.input.inputProcessor = im
 
-        // asset manager (included images)
+        // asset manager
         assetManager = AssetManager()
-        assetManager.setErrorListener(this)
+        assetManager!!.setErrorListener(this)
 
-        assetManager.load("images/included/packed/suicide.pack.atlas", TextureAtlas::class.java)
+        assetManager!!.load("audio/LEVEL__bradovic__piano.wav", Music::class.java)
+        assetManager!!.load("audio/MENU__frankum__sadnes-piano-loop.mp3", Music::class.java)
+        assetManager!!.load("audio/SCORE__meral__pianokeys-meral.wav", Music::class.java)
+
+        assetManager!!.load("images/included/packed/suicide.pack.atlas", TextureAtlas::class.java)
         val resolver = InternalFileHandleResolver()
-        assetManager.setLoader(FreeTypeFontGenerator::class.java, FreeTypeFontGeneratorLoader(resolver))
-        assetManager.setLoader(BitmapFont::class.java, ".ttf", FreetypeFontLoader(resolver))
-        assetManager.finishLoading();
-        textureAtlas = assetManager.get("images/included/packed/suicide.pack.atlas") // all images are found in this global static variable
+        assetManager!!.setLoader(FreeTypeFontGenerator::class.java, FreeTypeFontGeneratorLoader(resolver))
+        assetManager!!.setLoader(BitmapFont::class.java, ".ttf", FreetypeFontLoader(resolver))
+
+        assetManager!!.finishLoading()
+        textureAtlas = assetManager!!.get("images/included/packed/suicide.pack.atlas") // all images are found in this global static variable
 
         needs = readFromFile("needs.txt")
         positiveEmotions = readFromFile("positives.txt")
         negativeEmotions = readFromFile("negatives.txt")
 
-        // images (excluded images)
+        // images that are excluded from the asset manager
         splashTexture = Texture(Gdx.files.internal("images/excluded/splash_image.jpg"))
         splashTexture!!.setFilter(TextureFilter.Nearest, TextureFilter.Nearest)
         splashAnim = Animation(1f, TextureRegion(splashTexture))
@@ -102,7 +108,7 @@ abstract class BaseGame : Game(), AssetErrorListener {
     @Override
     override fun dispose() {
         super.dispose()
-        assetManager.dispose()
+        assetManager!!.dispose()
         customFont.dispose()
         splashTexture!!.dispose()
         textureAtlas!!.dispose()

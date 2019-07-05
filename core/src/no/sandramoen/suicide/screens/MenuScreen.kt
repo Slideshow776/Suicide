@@ -2,6 +2,7 @@ package no.sandramoen.suicide.screens
 
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.Input.Keys
+import com.badlogic.gdx.audio.Music
 import com.badlogic.gdx.scenes.scene2d.Event
 import com.badlogic.gdx.scenes.scene2d.InputEvent
 import com.badlogic.gdx.scenes.scene2d.InputEvent.Type
@@ -17,6 +18,7 @@ class MenuScreen : BaseScreen() {
     private lateinit var title: Label
     private lateinit var startButton: TextButton
     private lateinit var quitButton: TextButton
+    private lateinit var music: Music
 
     override fun initialize() {
 
@@ -41,6 +43,10 @@ class MenuScreen : BaseScreen() {
                 exit()
             false
         }
+
+        music = BaseGame.assetManager!!.get("audio/MENU__frankum__sadnes-piano-loop.mp3", Music::class.java)
+        music.isLooping = true
+        music.play()
 
         // scene graph
         uiTable.add(title).colspan(2)
@@ -81,6 +87,7 @@ class MenuScreen : BaseScreen() {
     }
 
     private fun disableAndFadeOut(duration: Float) {
+        music.stop()
         startButton.isDisabled = true
         quitButton.isDisabled = true
         background.addAction(Actions.fadeOut(duration))

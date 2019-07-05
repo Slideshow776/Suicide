@@ -2,6 +2,7 @@ package no.sandramoen.suicide.screens
 
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.Input.Keys
+import com.badlogic.gdx.audio.Music
 import com.badlogic.gdx.scenes.scene2d.Event
 import com.badlogic.gdx.scenes.scene2d.actions.Actions
 import com.badlogic.gdx.scenes.scene2d.ui.*
@@ -29,6 +30,9 @@ class LevelScreen : BaseScreen() {
     private lateinit var background: Background
 
     private lateinit var scoreTable: Table
+
+    private lateinit var levelMusic: Music
+    private lateinit var scoreMusic: Music
 
     override fun initialize() {
         // scene graph layout
@@ -78,6 +82,8 @@ class LevelScreen : BaseScreen() {
         suicideButton.addListener {e: Event ->
             if(isTouchDownEvent(e)) {
                 stopGame = true
+                levelMusic.stop()
+                scoreMusic.play()
                 scoreLabel.setText("Score: ${sumScore/totalNumberOfEmotions}")
                 scoreTable.isVisible = true
                 scoreTable.addAction(
@@ -103,6 +109,13 @@ class LevelScreen : BaseScreen() {
         BaseActor.setWorldBounds(background)
         nextScene(0f)
 
+        // assets
+        scoreMusic = BaseGame.assetManager!!.get("audio/SCORE__meral__pianokeys-meral.wav", Music::class.java)
+        scoreMusic.isLooping = true
+        levelMusic = BaseGame.assetManager!!.get("audio/LEVEL__bradovic__piano.wav", Music::class.java)
+        levelMusic.isLooping = true
+        levelMusic.play()
+
         // fade in
         val duration = 1f
         background.addAction(Actions.sequence(Actions.fadeOut(0f), Actions.fadeIn(duration)))
@@ -124,6 +137,8 @@ class LevelScreen : BaseScreen() {
     override fun keyDown(keycode: Int): Boolean {
         if (keycode == Keys.ENTER) {
             stopGame = true
+            levelMusic.stop()
+            scoreMusic.play()
         }
         return false
     }
@@ -140,6 +155,9 @@ class LevelScreen : BaseScreen() {
     }
 
     private fun disableAndFadeOut() {
+        scoreMusic.stop()
+        levelMusic.stop()
+
         suicideButton.isDisabled = true
         returnToMenuButton.isDisabled = true
         restartButton.isDisabled = true
