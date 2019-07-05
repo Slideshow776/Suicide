@@ -8,12 +8,12 @@ import no.sandramoen.suicide.base.BaseGame
 
 class Background(x: Float, y: Float, s: Stage? = null, t: Table? = null) : BaseActor(x, y, s, t) {
     val menuBackground = loadTexture(BaseGame.textureAtlas!!.findRegion("menuBackground"))
-    val scoreBackground = loadTexture(BaseGame.textureAtlas!!.findRegion("testBackground5"))
+    val scoreBackground = loadTexture(BaseGame.textureAtlas!!.findRegion("gameOver"))
 
-    private val background0 = loadTexture(BaseGame.textureAtlas!!.findRegion("testBackground0"))
+    private val background0 = loadTexture(BaseGame.textureAtlas!!.findRegion("morning"))
     private val background1 = loadTexture(BaseGame.textureAtlas!!.findRegion("goingToWork"))
-    private val background2 = loadTexture(BaseGame.textureAtlas!!.findRegion("testBackground2"))
-    private val background3 = loadTexture(BaseGame.textureAtlas!!.findRegion("testBackground3"))
+    private val background2 = loadTexture(BaseGame.textureAtlas!!.findRegion("comingHome"))
+    private val background3 = loadTexture(BaseGame.textureAtlas!!.findRegion("evening"))
 
     private val backgrounds = arrayOf(background0, background1, background2, background3)
     private var index = 0
