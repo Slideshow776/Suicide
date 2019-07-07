@@ -7,10 +7,13 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label
 import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup
 import no.sandramoen.suicide.base.BaseGame
 
+/*
+* Mixin class for LevelScreen
+* */
 class Emotions(private val verticalGroup: VerticalGroup) {
     private var lastEmotionWasNegative = false // assumes first last emotion was positive
-    private var probabilityOfStayingPositive = .6f
-    private var probabilityOfStayingNegative = .7f
+    private var probabilityOfStayingPositive = .55f
+    private var probabilityOfStayingNegative = .75f
 
     init {
     }

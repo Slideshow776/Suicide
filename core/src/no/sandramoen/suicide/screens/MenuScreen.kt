@@ -49,7 +49,7 @@ class MenuScreen : BaseScreen() {
         music.play()
 
         // scene graph
-        uiTable.add(title).colspan(2)
+        uiTable.add(title).colspan(4)
         uiTable.row()
         uiTable.add(startButton)
         uiTable.add(quitButton)
