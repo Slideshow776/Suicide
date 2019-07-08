@@ -26,7 +26,7 @@ class MenuScreen : BaseScreen() {
         background = Background(0f, 0f, s=mainStage)
         background.menuBackground
 
-        title = Label("Suicide?", BaseGame.labelStyle)
+        title = Label("Suicide?", BaseGame.biggerLabelStyle)
 
         startButton = TextButton("Start", BaseGame.textButtonStyle)
         startButton.addListener { e: Event ->
@@ -49,7 +49,7 @@ class MenuScreen : BaseScreen() {
         music.play()
 
         // scene graph
-        uiTable.add(title).colspan(4)
+        uiTable.add(title).colspan(2)
         uiTable.row()
         uiTable.add(startButton)
         uiTable.add(quitButton)

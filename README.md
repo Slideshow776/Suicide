@@ -1,3 +1,10 @@
+# Playing the Game
+To play the game:
+* Click the green "Clone or download" button
+* Click "Download ZIP"
+* Extract the content of the zip
+* Double click "Suicide.jar"
+
 # Game Design Document
 
 1. Overall Vision
@@ -102,3 +109,34 @@
     * **What are the plans for publication?**
     This game will be made available for free on desktop. It will be deployed on the Google Play store for 10 NOK and disseminated to various indie game-portal websites. Gameplay images and a video will be posted and marketed via social media.
 
+# Afterthoughts
+Some afterthoughts from project development and final product. This project was only meant as a small project and surmounted to about 48 hours of work. The final product became nearly identical to what was planned. 
+
+Displaying random emotions and random needs in a game showed to be quite interesting, perhaps this may be further implemented in future games?
+## TexturePacker
+TexturePacker was implemented to collect graphical assets. For implementation see git commits in master. A `pack.json` was added to the folder to set `TextureFilter` globally. Separation of the graphical assets into _included_ and _excluded_ was needed because texturepacker was unable to process the big splash image.
+## AssetManager
+`AssetManager` was used to handle most assets (see git commits in master for implementation). This gives the advantage of only loading assets once. Since the loading time is not big a loading bar was not implemented
+## Disposing
+Disposing assets as soon as they are no longer needed is important for memory management. This project utilizes this successfully.
+## Scenegraph
+A complex scene graph were created in `LevelScreen`, this was good training.
+## Graphics
+**Graphics was harder than anticipated to create**, the overall style have improvement potential. Further increase in graphical skills is desired. 
+## Fonts
+A suprising amount of time went into sizing the font properly in relations to different screens. There is also no guarantee that it is readable, there seems to be some sort of bug making the font miss on some of its characters when scaled too big. The effective algorithm is as follows: 
+```
+fontParameters.size = (.06f * Gdx.graphics.height).toInt() // If the resolutions height is 1440 then the font size becomes 86
+```
+Where `.06f` is an arbitrary selection by trial and error.
+## Gameplay
+Gameplay is lacking. The player hardly have any choice (as per design). Future increase in game design is desired.
+The score screen was mean to be ambiguous, this was successful.
+## Creating a desktop .jar file
+LibGDX's Gradle version is 4.6 in current project setups. This is to ensure certain dependencies works.
+
+ In order to create a .jar file `$gradlew desktop:dist` may be run, and the resulting .jar fil will be found in `[project-dir]\desktop\build\libs`. 
+ 
+ If however one needs to upgrade Gradle in order to meet a newer version of Java, this can be done by:
+ * Changing the distribution in the file `[project-dir]/gradle/wrapper/gradle-wrapper.properties` to a higher number.
+ * Then changing line 27 of the file `[project-name]/desktop/build.gradle` from `files(sourceSets.main.output.classesDir)` to `files(sourceSets.main.output.classesDirs)`.

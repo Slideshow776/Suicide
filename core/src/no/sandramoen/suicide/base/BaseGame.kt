@@ -22,6 +22,7 @@ import com.badlogic.gdx.graphics.g2d.*
 abstract class BaseGame : Game(), AssetErrorListener {
     private lateinit var fontGenerator: FreeTypeFontGenerator
     private lateinit var customFont: BitmapFont
+    private lateinit var biggerCustomFont: BitmapFont
 
     init {
         game = this
@@ -34,6 +35,7 @@ abstract class BaseGame : Game(), AssetErrorListener {
         var positiveEmotions: List<String>? = null
         var negativeEmotions: List<String>? = null
         var labelStyle: LabelStyle? = null
+        var biggerLabelStyle: LabelStyle? = null
         var textButtonStyle: TextButtonStyle? = null
         var textureAtlas: TextureAtlas? = null
         var splashTexture: Texture? = null
@@ -86,12 +88,25 @@ abstract class BaseGame : Game(), AssetErrorListener {
         fontParameters.minFilter = TextureFilter.Linear
         fontParameters.magFilter = TextureFilter.Linear
 
+        val biggerFontParameters = FreeTypeFontGenerator.FreeTypeFontParameter()
+        biggerFontParameters.size = (.1f * Gdx.graphics.height).toInt() // If the resolutions height is 1440 then the font size becomes 86
+        biggerFontParameters.color = Color.SALMON
+        biggerFontParameters.borderWidth = 2f
+        biggerFontParameters.borderColor = Color.BLACK
+        biggerFontParameters.borderStraight = true
+        biggerFontParameters.minFilter = TextureFilter.Linear
+        biggerFontParameters.magFilter = TextureFilter.Linear
+
         customFont = fontGenerator.generateFont(fontParameters)
+        biggerCustomFont = fontGenerator.generateFont(biggerFontParameters)
         fontGenerator.dispose()
 
         // labels
         labelStyle = LabelStyle()
         labelStyle!!.font = customFont
+
+        biggerLabelStyle = LabelStyle()
+        biggerLabelStyle!!.font = biggerCustomFont
 
         // buttons
         textButtonStyle = TextButtonStyle()
@@ -110,6 +125,7 @@ abstract class BaseGame : Game(), AssetErrorListener {
         super.dispose()
         assetManager!!.dispose()
         customFont.dispose()
+        biggerCustomFont.dispose()
         splashTexture!!.dispose()
         textureAtlas!!.dispose()
     }
