@@ -1,9 +1,18 @@
 # Playing the Game
-To play the game:
-* Click the green "Clone or download" button
-* Click "Download ZIP"
-* Extract the content of the zip
-* Double click "Suicide.jar"
+## To play on **Desktop**:
+Java must be installed on your device.
+* Click `Suicide.jar`
+* Click "Download"
+* Double click to run
+   * Alternatively:
+      * Open a terminal (cmd)
+      * Navigate to the file `$cd [path]`
+      * Run `$java -jar Suicide.jar`
+
+## To play on Andoid:
+* Click `android-release.apk`
+* Disable any operating system warnings about installing the app
+* Install and play
 
 # Game Design Document
 
