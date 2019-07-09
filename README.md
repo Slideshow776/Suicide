@@ -1,3 +1,5 @@
+![Screenshot_2019-07-08-12-32-55](https://user-images.githubusercontent.com/4059636/60807955-72314800-a187-11e9-96ae-7c423aa12679.png)
+
 # Playing the Game
 ## To play on **Desktop**:
 Java must be installed on your device.
