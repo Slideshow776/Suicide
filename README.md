@@ -150,3 +150,7 @@ LibGDX's Gradle version is 4.6 in current project setups. This is to ensure cert
  If however one needs to upgrade Gradle in order to meet a newer version of Java, this can be done by:
  * Changing the distribution in the file `[project-dir]/gradle/wrapper/gradle-wrapper.properties` to a higher number.
  * Then changing line 27 of the file `[project-name]/desktop/build.gradle` from `files(sourceSets.main.output.classesDir)` to `files(sourceSets.main.output.classesDirs)`.
+ 
+ ## Google Play policies
+ This game was deemed not appropriate for the Google Play app store. This was due to their policy about not promoting suicide. Blocking games, for this reason, is unfortunate, but I respect their decision and will not challenge them on this. 
+ For future development; reading policies might thoroughly might be a good idea.
