@@ -11,6 +11,7 @@ Java must be installed on your device.
 
 ## To play on Andoid:
 * Click `android-release.apk`
+* Download the file.
 * Disable any operating system warnings about installing the app
 * Install and play
 
