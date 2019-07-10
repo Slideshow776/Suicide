@@ -157,4 +157,4 @@ LibGDX's Gradle version is 4.6 in current project setups. This is to ensure cert
  
  ## Google Play policies
  This game was deemed not appropriate for the Google Play app store. This was due to their policy about not promoting suicide. Blocking games, for this reason, is unfortunate, but I respect their decision and will not challenge them on this. 
- For future development; reading policies might thoroughly might be a good idea.
+ For future development; reading policies thoroughly might be a good idea.
